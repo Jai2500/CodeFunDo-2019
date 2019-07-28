@@ -70,13 +70,25 @@ Idea for CodeFunDo++ 2019
  * It would then search the blockchain for the details of the candidates in the corresponding constituency. 
  * After that it would display them using JavaScript and HTML.
  
-* For those 
+* For those voters who have special permissions to vote remotely (i.e not visit a particular polling/voting booth), we would create a face recognition system using a Neural Network similar to DeepFace that would identify the person. 
  
 #### How can users get started with it? 
 
 * Users would have to get a voting ID and
 * Go to the voting booth to get their votes registered. 
 * After that they can check if their votes had been registered correctly.
+
+#### What dataset(s) will we be using?
+
+* We will potentially use the Aadhar API to create and test the authentication process of the voting system.
+* We will also use other election datasets during the simulation of the process.
+
+#### What technologies that we are using? 
+
+* We will be using **Azure Blockchain Services** - Ethereum to create the blockchain.
+* We will be using **JavaScript, Solidity and Metamask** to deploy the _smart contracts_ on the blockchain.
+* We will be using **HTML/CSS** to create the website.
+* We will be using **VGG - 19 or VGG - 16** Neural Network to develop the Face Recognition API. This will be integrated by using **Pyton**. 
 
 
   
