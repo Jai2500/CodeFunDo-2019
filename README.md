@@ -6,40 +6,35 @@ Idea for CodeFunDo++ 2019
 
 #### Current Systems 
 
-* The current system uses Electronic Voting Machines (EVM). EVMs are set up in various polling booths across the country where people vote by pressing the button corresponding to the candidates. 
+* The current system uses Electronic Voting Machines (EVM).
 * Voting in India takes place at constituency level, where the people vote for candidates of various constituencies to join the Legislative Assembly. 
 * People have to register for availing a Voter ID when they turn 18. After that based on the location of the person a voter list is generated and circulated across the corresponding polling booths. 
-* On the day of voting, people have to reach the required polling booth and vote using the EVMs described above. 
-  * In some places this voting is done using paper ballots instead of EVMs. 
-* The result of the voting is released after counting the votes. 
+* In some places this voting is done using paper ballots instead of EVMs.  
 
 
 #### Issues with the current system
 
 * The major issue is that the EVMs are very suseptible to external interventions. Many cases of EVM hacking / rigging of EVM machines have been reported.
-* Beyond just the issues with EVM machines, many a times citizens are not able to vote because they cannot make it to their own constituency. 
-* There are also cases of names missing from the voting list.
-* Another issue is the miscounting of votes that commonly happens when we use paper ballots. The task of counting and compiling is a very time consuming one and can be easily further improved. 
-* Quite often voters are not aware of the full information of the candidates but are just coerced into voting for them by the other members of the party. 
+* Many a times citizens are not able to vote because they cannot make it to their own constituency. 
+* Cases of names missing from the voting list.
+* Miscounting of votes due to the use of paper ballots. The task of counting and compiling is very time consuming . 
+* Lack of complete awareness of the candidates.
 
 ### Our Solution 
 
 #### What are we planning to build? 
  
-* We plan to build a complete blockchain for voting that functions not only at the smaller district/constitency level but also at the national level. 
-* Voters will be registered only at a national level rather and would be added to their constituencies.
-* A voters list will not be created for the polling booth as no voter will be assigned a particuar voting booth. 
-  * Rather voters would vote for candidates of their constituencies without requiring to be present in a voting booth set up in that constituency. 
-* The blockchain will be accompanied by a website that uses facial recognition and biometrics (as applicable) to verify the voters and provide the voters with the voting page. 
-* The website would also furnish details of the participating candidates so that the voters may assure themselves of their choice. 
-  * The details may include : 
-    1. Metrics like - Promises made vs. Promises Kept, Attendance in the House
-    2. Criminal Record
-    3. Funds Utilization
-  * This would also be paired with the Agenda set up the candidate.
-  * The website would be dynamic to show the candidates belonging to the constitency of the voters.
+* We plan to build a complete blockchain for voting that functions not only at the constitency level but also at the national level. 
+* A voters list will not be created for each polling booth but one for the constituency as no voter will be assigned a particuar voting booth. 
+* Rather voters would vote for candidates of their constituencies without requiring to be present in a voting booth set up in their constituency. 
+* The blockchain will be accompanied by a website that uses biometrics (as applicable) to authentication the voters and provide the voters with the voting page. 
+* The website would also furnish details of the participating candidates so that the voters may assure themselves of their choice: 
+    1. Criminal Record
+    2. Funds Utilization
+    3. Candidate's Agenda
+* The website would show the candidates belonging to the constitency of the voter.
 * Each voter after voting would receive a reference ID so that they can later see that their vote was accounted for. 
-* The counting would be done automatically at both the constituency level as well as the national level to ensure that there is no mishap.
+* The counting would be done automatically at both the constituency level as well as the national level to ensure that there is no miscounting.
 
 #### How are we planning to build it?
 
@@ -55,8 +50,7 @@ Idea for CodeFunDo++ 2019
   * Creator
   * District centres
   * Voters
-* Each of them would have different functions assigned to them as well. We plan to implement them using a mixture of _JavaScript, Solidity, Azure,_ and _HTML/CSS_.
-
+  
 * There would be a __smart contract__ for the creation of the election that the creator would be able to trigger. 
 * After the creation of the voting blockchain, all the candidates and the district centers would be loaded onto the blockchain through the use of another smart contract. 
 * The district centers would have their own smart contracts that would enable the voters to vote.
@@ -75,17 +69,6 @@ Idea for CodeFunDo++ 2019
 * For those voters who have special permissions to vote remotely (i.e not visit a particular polling/voting booth), we would create a face recognition system using a Neural Network similar to DeepFace that would identify the person. 
 
 ![Design Flow](./images/design.png)
- 
-#### How can users get started with it? 
-
-* Users would have to get a voting ID and
-* Go to the voting booth to get their votes registered. 
-* After that they can check if their votes had been registered correctly.
-
-#### What dataset(s) will we be using?
-
-* We will potentially use the Aadhar API to create and test the authentication process of the voting system.
-* We will also use other election datasets during the simulation of the process.
 
 #### What technologies that we are using? 
 
