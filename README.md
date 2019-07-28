@@ -28,7 +28,7 @@ Idea for CodeFunDo++ 2019
  
 * We plan to build a complete blockchain for voting that functions not only at the smaller district/constitency level but also at the national level. 
 * Voters will be registered only at a national level rather and would be added to their constituencies.
-* A voters list will not be created for the pooling booth as no voter will be assigned a particuar voting booth. 
+* A voters list will not be created for the polling booth as no voter will be assigned a particuar voting booth. 
   * Rather voters would vote for candidates of their constituencies without requiring to be present in a voting booth set up in that constituency. 
 * The blockchain will be accompanied by a website that uses facial recognition and biometrics (as applicable) to verify the voters and provide the voters with the voting page. 
 * The website would also furnish details of the participating candidates so that the voters may assure themselves of their choice. 
@@ -44,9 +44,39 @@ Idea for CodeFunDo++ 2019
 #### How are we planning to build it?
 
 * We plan to build an *Ethereum* based **private** blockchain that would be set up at all the voting booths across India. 
+* The entire blockchain would use the technology provided by **Azure Blockchain Services** so as to ensure easy integration. 
 * There would be 2 blockchains running simultaneously: 
   * One at a constituency level
   * Other at a national level. 
   
   ![Diagram of the blockchain](./images/blockchain.png)
+  
+* There would be different _permission levels_ for this private blockchain:
+ * Creator
+ * District centres
+ * Voters
+* Each of them would have different functions assigned to them as well. We plan to implement them using a mixture of _JavaScript, Solidity, Azure,_ and _HTML/CSS_.
+
+* There would be a __smart contract__ for the creation of the election that the creator would be able to trigger. 
+* After the creation of the voting blockchain, all the candidates and the district centers would be loaded onto the blockchain through the use of another smart contract. 
+* The district centers would have their own smart contracts that would enable the voters to vote.
+* After the expiry of the district smart contracts, another smart contract for counting the votes would begin that would compile the scores of each of the voters.
+
+* Each voter would be provided with an _Ethereum_ account and value **1**. Each vote requires a value **1** so that each voter may vote only once.
+* This would take place with the integration of solidity, javascript and metamask to exploit the Web3 framework to ensure smoothness of the procedure.
+
+* The website would display the details of the candidates stored in one of the earler blocks of the blockchain established by the _Creator_ of the voting procedure. 
+ * The website would use the details of the voter to find out the constituency of the voter.
+ * It would then search the blockchain for the details of the candidates in the corresponding constituency. 
+ * After that it would display them using JavaScript and HTML.
+ 
+* For those 
+ 
+#### How can users get started with it? 
+
+* Users would have to get a voting ID and
+* Go to the voting booth to get their votes registered. 
+* After that they can check if their votes had been registered correctly.
+
+
   
