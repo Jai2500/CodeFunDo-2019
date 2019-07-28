@@ -47,3 +47,6 @@ Idea for CodeFunDo++ 2019
 * There would be 2 blockchains running simultaneously: 
   * One at a constituency level
   * Other at a national level. 
+  
+  ![Diagram of the blockchain](./images/blockchain.png)
+  
