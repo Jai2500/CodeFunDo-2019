@@ -49,12 +49,12 @@ Idea for CodeFunDo++ 2019
   * One at a constituency level
   * Other at a national level. 
   
-  ![Diagram of the blockchain](./images/blockchain.png)
+![Diagram of the blockchain](./images/blockchain.png)
   
 * There would be different _permission levels_ for this private blockchain:
- * Creator
- * District centres
- * Voters
+  * Creator
+  * District centres
+  * Voters
 * Each of them would have different functions assigned to them as well. We plan to implement them using a mixture of _JavaScript, Solidity, Azure,_ and _HTML/CSS_.
 
 * There would be a __smart contract__ for the creation of the election that the creator would be able to trigger. 
@@ -70,7 +70,11 @@ Idea for CodeFunDo++ 2019
  * It would then search the blockchain for the details of the candidates in the corresponding constituency. 
  * After that it would display them using JavaScript and HTML.
  
+* To ensure the privacy of the voters we will use the _Shamir's Secret Service Scheme_ 
+
 * For those voters who have special permissions to vote remotely (i.e not visit a particular polling/voting booth), we would create a face recognition system using a Neural Network similar to DeepFace that would identify the person. 
+
+![Design Flow](./images/design.png)
  
 #### How can users get started with it? 
 
