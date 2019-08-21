@@ -221,8 +221,8 @@ The National chain would have more blocks and more validators. This would reduce
 
 
 ### Project Directory
-Here is the zip file of the project directory. 
-Link: 
+Here is the zip file of the project directory. <br>
+Link: https://1drv.ms/u/s!Am8mfksK8R_6g0ujDb4IXJdf57aI?e=eBWUqh
 
 ### Screenshots
 
