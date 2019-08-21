@@ -213,6 +213,10 @@ contract Ballot{
 
 ```
 
+### Solutions for Remote Voting
+We would provide a solution for remote voting for those with special permission. After the voter votes, a confirmation mail would come to him some day in the same week or the entire duration of the national voting. The person would be required to have the same vote as previous one for this as well. If it is a different one, then the vote would be nullified.
+
+
 ### Screenshots
 
 
@@ -328,6 +332,7 @@ app.listen(3000, function(){
 
 
 ```.
+```
 
 
 
