@@ -76,7 +76,260 @@ Idea for CodeFunDo++ 2019
 * We will be using **Azure Blockchain Services** - Ethereum to create the blockchain.
 * We will be using **JavaScript, Solidity and Metamask** to deploy the _smart contracts_ on the blockchain.
 * We will be using **HTML/CSS** to create the website.
-* We will be using **VGG - 19 or VGG - 16** Neural Network to develop the Face Recognition API. This will be integrated by using **Pyton**. 
+* We will be using **VGG - 19 or VGG - 16** Neural Network to develop the Face Recognition API. This will be integrated by using **Python**
+
+
+## Additions for Submission
+
+### Solidity Smart Contract Code
+
+```solidity
+
+pragma solidity ^0.5.8;
+pragma experimental ABIEncoderV2;
+
+
+contract ElectionCreation {
+    Ballot[] public deployedBallot;
+    constructor (bytes32[] memory candidates, uint[] memory district, bytes32[] memory education, bytes32[] memory criminal_record,  uint hour, uint8[] memory age, uint[] memory net_worth) public  {
+        for(uint i = 0; i < district.length; i++){
+            Ballot newBallot = new Ballot(candidates, district[i], education, criminal_record, msg.sender, hour, age, net_worth);
+            deployedBallot.push(newBallot);
+        }
+    }
+    function getDeployedBallots() public view returns(Ballot[] memory){
+        return deployedBallot;
+    }
+}
+
+
+contract Ballot{
+    struct Candidate {
+        uint64 voteCount;
+        bytes32 name;
+        uint district;
+        uint8 age;
+        bytes32 criminalRecord;
+        bytes32 education;
+        uint netWorth;
+        uint creationTime;
+        uint ExpirationDate;
+    }
+    
+    Candidate[] public candidates;
+    address public manager;
+    uint votingDistrict;
+    mapping(address => bool) public voters;
+    
+    modifier restricted (){
+        require(msg.sender == manager);
+        _;
+    }
+    
+    constructor (bytes32[] memory candidates_names, uint district, bytes32[] memory education, bytes32[] memory criminal_record, address creator, uint hour, uint8[] memory age, uint[] memory net_worth) public {
+        manager = creator;
+        votingDistrict = district;
+        for (uint i = 0; i < candidates_names.length; i++){
+            candidates.push(Candidate({
+                name : candidates_names[i],
+                voteCount : 0,
+                district : district,
+                age : age[i],
+                criminalRecord : criminal_record[i],
+                education : education[i],
+                netWorth : net_worth[i],
+                creationTime : now,
+                ExpirationDate : now + hour
+            }));
+            
+        }
+    }
+    
+    struct Vote{
+        address voteAddress;
+        uint transID;
+        string passwordHash;
+        uint votedTo;
+    }
+    
+    Vote[] votes;
+    
+    uint gl_transID = 0;
+    
+    function vote(uint candidate, string memory _passwordHash) public returns(Vote memory) {
+        require(!voters[msg.sender]);
+        if(now > candidates[candidate].ExpirationDate){
+            revert();
+        }
+        else {
+            candidates[candidate].voteCount += 1;
+            voters[msg.sender] = true;
+            Vote memory newVote = Vote({
+                voteAddress : msg.sender,
+                transID : gl_transID + 1,
+                passwordHash : _passwordHash, 
+                votedTo : candidate
+            });
+            votes.push(newVote);
+            gl_transID +=1;
+            return newVote;
+        }
+    }
+    
+    
+    function show_vote(uint _transID, string memory _passwordHash) public view returns(uint, uint, address){
+        for(uint i = 0; i < votes.length; i++){
+            if(votes[i].transID == _transID && keccak256(abi.encodePacked(votes[i].passwordHash)) == keccak256(abi.encodePacked(_passwordHash))){
+                return(votes[i].transID, votes[i].votedTo, votes[i].voteAddress);
+            }
+        }
+        // Add a case for not finding the element
+    }
+
+    function show_name() public view returns(bytes32){
+        return candidates[0].name;
+    }
+    
+    
+   // function show_candidates(uint _district) public view returns(Candidate[100] memory){
+   //      Candidate[100] memory required_candidates;
+   //      for(uint i = 0; i<candidates.length; i++){
+   //          if(candidates[i].district == _district){
+   //              required_candidates[i] = candidates[i];
+   //           }
+   //      }
+    //     return(required_candidates);
+    // }
+
+    function show_candidates() public view returns(Candidate[] memory){
+        return candidates;
+    }
+    
+    function getVoteCount(uint index) public view returns(uint) {
+        require(now > candidates[index].ExpirationDate);
+        return candidates[index].voteCount;
+    } 
+}
+
+```
+
+### Screenshots
+
+
+### NodeJS Code for Website Creation
+
+``` JavaScript
+var ethereumjs = require('ethereumjs-tx').Transaction;
+var wallet = require('ethereumjs-wallet');
+var Web3 = require('web3');
+var fs = require('fs');
+
+var elec_address = "0x0a3Eb2E4a6e950c8499B3a29D35E017E426B8C7b";
+var elec_abi = JSON.parse(fs.readFileSync("./build/contracts/ElectionCreation.json"));
+
+var ballot_address = "0xa859E3f4C2e8b6ED7f5Bb8Cc06ae9A2AF38D92B5";
+var ballot_abi = JSON.parse(fs.readFileSync("./build/contracts/Ballot.json"));
+
+
+//Generate new Ethereum Account
+var account = wallet.generate();
+var accountAddress = account.getAddressString();
+//var accountAddress = "0x528F3C7C706914e32E66E7f6D4Fd1e691F8F18E6";
+var privateKey = account.getPrivateKey();
+//var privateKey = new Buffer("04a5f968d0037d31a8c1aa1a03ba01c2602f5d8ffac6c38837b303075d33b6f7", "hex");
+
+//TODO: Replace with the correct RPC
+var web3 = new Web3();
+web3.setProvider(new web3.providers.HttpProvider("http://127.0.0.1:8545"));
+
+
+//Get Nonce for the account
+web3.eth.getTransactionCount(accountAddress, function(err, nonce){
+
+    var elec_func = new web3.eth.Contract(elec_abi.abi,elec_address);
+    
+
+    data = new web3.eth.Contract(ballot_abi.abi,ballot_address).methods.show_name().encodeABI();
+    //    console.log(data);
+    rawTx = {
+      nonce: nonce,
+      gasPrice: '0x0000000000000000000000000',
+      gasLimit: web3.utils.numberToHex(6721975),
+      to: ballot_address,
+      value: '0x00',
+      data: data
+    }
+     tx = new ethereumjs(rawTx);
+     tx.sign(privateKey);
+     raw = '0x' + tx.serialize().toString('hex');
+    // web3.eth.sendSignedTransaction(raw).on('receipt', console.log);
+
+    var func_bal = new web3.eth.Contract(ballot_abi.abi, ballot_address);
+    func_bal.methods.show_candidates().call();//then(console.log);
+});
+
+
+
+
+
+const express = require('express');
+const bodyParser = require('body-parser');
+const app = express();
+
+app.set('view engine', 'ejs');
+app.use(bodyParser.urlencoded({extended: true}));
+
+app.get('/', function(req,res){
+    res.render('index');
+})
+
+//app.get('/', function(req, res){
+//    
+//})
+
+app.post('/', function(req, res){
+    var district = req.body.district;
+    console.log(req.body.district);
+    res.redirect('/vote?dno=' + district);
+})
+
+app.get('/vote', function(req, res){
+    var district = req.query.dno;
+    var func_bal = new web3.eth.Contract(ballot_abi.abi, ballot_address);
+    func_bal.methods.show_candidates().call().then((response) =>{
+        console.log(response[0])
+        res.render('vote',{response: response, dno:district});
+    });
+})
+
+app.post('/vote', function(req, res){
+    var name = req.body.name;
+    var pwd = req.body.passwd;
+    res.redirect('/finished?name=' + name + '&passwd=' + pwd);
+})
+
+app.get('/finished', function(req,res){
+    var name = req.query.name;
+    var passwd = req.query.passwd;
+    var func_bal = new web3.eth.Contract(ballot_abi.abi, ballot_address);
+    func_bal.methods.vote([name],passwd).call().then((response) =>{
+        res.render('finished',{response: response});
+    });
+})
+
+app.get('/check', function(req, res) {
+    var lid = req.body.lid;
+    var func_bal = new web3.eth.Contract(ballot_abi.abi, ballot_address)
+})
+
+app.listen(3000, function(){
+    console.log('Example App on 3000');
+})
+
+
+```.
+
+
 
 
   
